@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2020",
+      "lib": ["es2020", "esnext.asynciterable"],
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "allowJs": true,
+      "outDir": "dist",
+      "rootDir": "src",
+      "strict": true,
+      "noImplicitAny": true,
+      "resolveJsonModule": true,
+      "baseUrl": "./src",
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+  }
+}
