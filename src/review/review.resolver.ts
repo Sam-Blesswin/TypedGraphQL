@@ -1,6 +1,8 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { Review } from "./review";
-import { ReviewModel } from "model";
+import { AuthorModel, GameModel, ReviewModel } from "model";
+import { Game } from "game/game";
+import { Author } from "author/author";
 
 interface ReviewResponse {
   id: string;
@@ -23,6 +25,20 @@ export class ReviewResolver {
     if (!review) throw new Error("Review Not Found");
     return review;
   }
+
+  @FieldResolver(() => Game)
+  async game(@Root() review: ReviewResponse): Promise<Game> {
+    const game = await GameModel.findOne({ id: review.game_id });
+    if (!game) throw new Error("No game matched with review");
+    return game;
+  }
+
+  @FieldResolver(() => Author)
+  async author(@Root() review: ReviewResponse): Promise<Author> {
+    const author = await AuthorModel.findOne({ id: review.author_id });
+    if (!author) throw new Error("No author matched with review");
+    return author;
+  }
 }
 
 //This works well when there are 2 - 3 args
@@ -37,3 +53,6 @@ export class ReviewResolver {
 //   @Field({ nullable: true })
 //   title?: string;
 // }
+
+// @Query(returns => [Recipe])
+//   async recipes(@Args() { title, startIndex, endIndex }: GetRecipesArgs)
