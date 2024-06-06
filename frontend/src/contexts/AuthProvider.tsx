@@ -12,7 +12,6 @@ import React, {
   useState,
 } from "react";
 import { auth } from "../firebase/firebase";
-import { set } from "firebase/database";
 
 interface AuthContextType {
   user: User | null;
