@@ -2,13 +2,35 @@
 
 import { AddGame } from "./components/AddGame";
 import { DisplayGames } from "./components/DisplayGames";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthProvider";
 
 export default function App() {
   return (
-    <div>
-      <h2>My first Apollo app 🚀</h2>
-      <DisplayGames />
-      <AddGame />
-    </div>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/game"
+            element={
+              <div>
+                <h1>Games</h1>
+                <AddGame /> <DisplayGames />
+              </div>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }

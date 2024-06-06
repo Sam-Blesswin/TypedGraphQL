@@ -9,6 +9,13 @@ export const AddGame: React.FC = () => {
   const [platform, setPlatform] = useState("");
 
   const [addGame] = useMutation(ADD_GAME, {
+    /*
+    If you know that your app usually needs to refetch certain queries after a particular mutation, 
+    you can include a refetchQueries array in that mutation's 
+    
+    You can only refetch active queries. Active queries are those used by components on the current page.
+    */
+
     refetchQueries: [{ query: GET_GAMES }], // Refetch the list of games after adding a new game
   });
 

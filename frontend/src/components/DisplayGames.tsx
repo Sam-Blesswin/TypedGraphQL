@@ -12,6 +12,7 @@ const GameDetails: React.FC<{ gameId: string }> = ({ gameId }) => {
   //const { loading, error, data, refetch }
   const { loading, error, data } = useQuery(GET_GAME, {
     variables: { gameId: gameId },
+    //fetchPolicy: "network-only", //always hit server; instead of checking cache
   });
 
   if (loading) return <p>Loading...</p>;
@@ -36,7 +37,9 @@ const GameDetails: React.FC<{ gameId: string }> = ({ gameId }) => {
 
 export const DisplayGames: React.FC = () => {
   //Apollo Client automatically tracks a query's loading and error states
-  const { loading, error, data } = useQuery(GET_GAMES);
+  const { loading, error, data } = useQuery(GET_GAMES, {
+    fetchPolicy: "network-only",
+  });
   const [selectedGameId, setSelectedGameId] = useState<string>("1");
 
   if (loading) return <p>Loading...</p>;
