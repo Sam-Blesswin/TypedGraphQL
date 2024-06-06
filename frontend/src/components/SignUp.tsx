@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signup } = useAuth();
+  const { user, signup } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       await signup(email, password);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(user);
 
   return (
     <div>
@@ -33,7 +39,7 @@ export default function SignUp() {
         />
         <button type="submit">Sign Up</button>
         <br />
-        <a href="/login">Old User Login</a>
+        <Link to="/login">Old User Login</Link>
       </form>
     </div>
   );

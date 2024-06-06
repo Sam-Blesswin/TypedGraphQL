@@ -25,12 +25,12 @@ const GameDetails: React.FC<{ gameId: string }> = ({ gameId }) => {
   return (
     <>
       <h3>title: {data.game.title}</h3>
-      <p>
+      <div>
         Platform:
-        {data.game.platform.map((pf: string) => (
-          <p>{pf}</p>
+        {data.game.platform.map((pf: string, idx: number) => (
+          <p key={idx}>{pf}</p>
         ))}
-      </p>
+      </div>
     </>
   );
 };
@@ -49,7 +49,6 @@ export const DisplayGames: React.FC = () => {
 
   return (
     <div>
-      <h2>Games</h2>
       <select name="game" onChange={(e) => setSelectedGameId(e.target.value)}>
         {data.getGames.map((game: GamesType) => (
           <option key={game.id} value={game.id}>
