@@ -12,9 +12,11 @@ import React, {
   useState,
 } from "react";
 import { auth } from "../firebase/firebase";
+import { set } from "firebase/database";
 
 interface AuthContextType {
   user: User | null;
+  loading: boolean;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -30,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
   children,
 }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const signup = async (email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password);
@@ -46,13 +49,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, signup, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

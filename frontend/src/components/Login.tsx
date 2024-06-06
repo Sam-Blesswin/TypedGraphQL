@@ -6,7 +6,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -20,6 +20,8 @@ export default function SignUp() {
       console.log(error);
     }
   };
+
+  console.log(user);
 
   return (
     <div>

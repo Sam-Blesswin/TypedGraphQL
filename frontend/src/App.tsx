@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthProvider";
 import TopBar from "./components/TopBar";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   return (
@@ -24,13 +25,17 @@ export default function App() {
           <Route
             path="/game"
             element={
-              <div>
-                <TopBar />
-                <h1>Games</h1>
-                <AddGame />
-                <br />
-                <DisplayGames />
-              </div>
+              <PrivateRoute
+                element={
+                  <div>
+                    <TopBar />
+                    <h1>Games</h1>
+                    <AddGame />
+                    <br />
+                    <DisplayGames />
+                  </div>
+                }
+              />
             }
           />
         </Routes>
