@@ -9,17 +9,24 @@ import {
   ApolloProvider,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { auth } from "./firebase/firebase.ts";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/",
 });
 
-const authLink = setContext((_, { headers }) => {
+/*
+setContext is executed before each backend request, ensuring that the 
+token is dynamically set in the headers for every request
+*/
+const authLink = setContext(async (_, { headers }) => {
+  const jwt = await auth.currentUser?.getIdToken(true);
+
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      token: "admin",
+      token: jwt ? jwt : "",
     },
   };
 });

@@ -22,15 +22,19 @@ export const AddGame: React.FC = () => {
   const onHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await addGame({
-      variables: {
-        data: {
-          id,
-          title,
-          platform: platform.split(",").map((p) => p.trim()),
+    try {
+      await addGame({
+        variables: {
+          data: {
+            id,
+            title,
+            platform: platform.split(",").map((p) => p.trim()),
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      alert(error);
+    }
 
     setId("");
     setTitle("");

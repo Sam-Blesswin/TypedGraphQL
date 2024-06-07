@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
@@ -21,7 +21,8 @@ export default function SignUp() {
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       console.log("google login");
       await loginWithGoogle();

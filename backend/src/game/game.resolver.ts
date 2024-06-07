@@ -13,6 +13,8 @@ import { Game } from "./game";
 import { GameModel } from "model";
 import { MyContext } from "app";
 
+import admin from "../firebase/firebaseAdmin";
+
 //! - required
 //? - optional
 
@@ -67,9 +69,16 @@ export class GameResolver {
     @Arg("data", () => AddGameInput) game: AddGameInput,
     @Ctx() ctx: MyContext
   ): Promise<Game[]> {
-    if (ctx.token !== "admin") {
+    if (ctx.token === undefined) {
+      throw new AuthenticationError("No Authentication Token");
+    }
+
+    const user = await admin.auth().verifyIdToken(ctx.token);
+
+    if (!user) {
       throw new AuthenticationError("Authentication Failed");
     }
+
     const newGame = new GameModel(game);
     await newGame.save();
     return GameModel.find();
