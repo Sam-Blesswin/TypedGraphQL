@@ -1,9 +1,12 @@
 import {
+  GoogleAuthProvider,
   User,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
+
 import React, {
   ReactNode,
   createContext,
@@ -11,6 +14,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
 import { auth } from "../firebase/firebase";
 
 interface AuthContextType {
@@ -18,6 +22,7 @@ interface AuthContextType {
   loading: boolean;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -41,6 +46,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     await signInWithEmailAndPassword(auth, email, password);
   };
 
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  };
+
   const logout = async () => {
     await auth.signOut();
   };
@@ -55,7 +65,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, signup, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, signup, login, loginWithGoogle, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

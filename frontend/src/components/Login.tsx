@@ -6,7 +6,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { user, login } = useAuth();
+  const { user, login, loginWithGoogle } = useAuth();
 
   const navigate = useNavigate();
 
@@ -18,6 +18,16 @@ export default function SignUp() {
       navigate("/");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      console.log("google login");
+      await loginWithGoogle();
+      navigate("/");
+    } catch (error) {
+      console.error("Google login failed", error);
     }
   };
 
@@ -38,6 +48,10 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
+        <br />
+        <br />
+        <button onClick={handleGoogleLogin}>Sign In With Google</button>
+        <br />
         <br />
         <Link to="/signup">New User Signup</Link>
       </form>
